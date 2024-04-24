@@ -3,25 +3,25 @@ package main
 import (
 	"fmt"
 	"go-bank/accounts"
+	"go-bank/cutomer"
 )
 
+type accountVerify interface {
+	Withdrawal(amount float64) string
+}
+
+func PaymentBoleto(account accountVerify, amount float64) {
+	account.Withdrawal(amount)
+}
+
 func main() {
-	silviaAccount := accounts.CheckingAccount{}
-	silviaAccount.Holder = "Silvia"
-	silviaAccount.Balance = 500.0
+	customerWilliams := cutomer.Holder{Name: "Williams", CPF: "111.644.804-13", Profession: "Software Developer"}
+	williamsAccount := accounts.SavingsAccount{
+		Holder: customerWilliams, AgencyBank: 7728, AccountNumber: 134998, Operation: 2}
+	williamsAccount.DepositMoney(200)
 
-	fmt.Println(silviaAccount.Balance)
-	fmt.Println(silviaAccount.Withdrawal(-5000))
-	fmt.Println(silviaAccount.Balance)
+	PaymentBoleto(&williamsAccount, 130)
 
-	williamsAccount := accounts.CheckingAccount{}
-	williamsAccount.Holder = "Williams"
-	williamsAccount.Balance = 200.0
-
-	fmt.Println(williamsAccount.Balance)
-	fmt.Println(williamsAccount.DepositMoney(5000))
-	fmt.Println(williamsAccount.Balance)
-
-	silviaAccount.Transfer(200., &williamsAccount)
-	fmt.Println(williamsAccount.Balance)
+	fmt.Println(williamsAccount)
+	fmt.Println(williamsAccount.GetBalance())
 }

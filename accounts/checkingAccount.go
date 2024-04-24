@@ -1,17 +1,19 @@
 package accounts
 
+import "go-bank/cutomer"
+
 type CheckingAccount struct {
-	Holder        string
+	Holder        cutomer.Holder
 	AgencyBank    int
 	AccountNumber int
-	Balance       float64
+	balance       float64
 }
 
 func (c *CheckingAccount) Withdrawal(amount float64) string {
-	canWithdraw := amount > 0 && amount <= c.Balance
+	canWithdraw := amount > 0 && amount <= c.balance
 
 	if canWithdraw {
-		c.Balance -= amount
+		c.balance -= amount
 		return "Saque realizado com sucesso!"
 	}
 
@@ -20,19 +22,23 @@ func (c *CheckingAccount) Withdrawal(amount float64) string {
 
 func (c *CheckingAccount) DepositMoney(amount float64) (string, float64) {
 	if amount > 0 {
-		c.Balance += amount
-		return "Depósito realizado com sucesso!", c.Balance
+		c.balance += amount
+		return "Depósito realizado com sucesso!", c.balance
 	}
 
-	return "Valor do depósito é menor que zero!", c.Balance
+	return "Valor do depósito é menor que zero!", c.balance
 }
 
 func (c *CheckingAccount) Transfer(transferAmount float64, accountTarget *CheckingAccount) bool {
-	if transferAmount <= c.Balance && transferAmount > 0 {
-		c.Balance -= transferAmount
+	if transferAmount <= c.balance && transferAmount > 0 {
+		c.balance -= transferAmount
 		accountTarget.DepositMoney(transferAmount)
 		return true
 	}
 
 	return false
+}
+
+func (c *CheckingAccount) GetBalance() float64 {
+	return c.balance
 }
