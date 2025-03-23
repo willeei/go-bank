@@ -15,9 +15,9 @@ func PaymentBoleto(account accountVerify, amount float64) {
 }
 
 func main() {
-	customerWilliams := cutomer.Holder{Name: "Williams", CPF: "111.644.804-13", Profession: "Software Developer"}
+	customerWilliams := cutomer.Holder{Name: "Williams", CPF: "111.111.111-22", Profession: "Software Developer"}
 	williamsAccount := accounts.SavingsAccount{
-		Holder: customerWilliams, AgencyBank: 7728, AccountNumber: 134998, Operation: 2}
+		Holder: customerWilliams, AgencyBank: 7728, AccountNumber: 111222, Operation: 2}
 	williamsAccount.DepositMoney(200)
 
 	PaymentBoleto(&williamsAccount, 130)
